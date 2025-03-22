@@ -1,0 +1,112 @@
+{% extends 'index.html' %} {% block title %} Providers {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2> <b>Manage Providers </b> <button type="button" class="btn btn-success float-end" 
+                    data-bs-toggle="modal" data-bs-target="#mymodal">Add New Providers</button> </h2>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Employment Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    <tbody>
+                    {% for provider in providers %}
+                    <tr>
+                        <td>{{ provider.1 }}</td>
+                        <td>{{ provider.2 }}</td>
+                        <td>{{ provider.3 }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="mymodaledit">Edit</a>
+                            <a href="/delete/{{provider.0}}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure You Want To Delete?')">Delete</a>
+                        </td>
+                    </tr>
+                    </thead>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+
+            {% for provider in providers %}
+            <div id="mymodaledit" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Information</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('update_providers')}}" method="POST">
+                                <div class="form-group">
+                                    <label>Name:</label>
+                                    <input type="text" class="form-control" name="name" value="{{provider.1}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role:</label>
+                                    <input type="text" class="form-control" name="role" value="{{provider.2}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Employment Status:</label>
+                                    <input type="text" class="form-control" name="employment_status" value="{{provider.3}}">
+                                </div>
+                                <input type="hidden" name="id" value="{{provider.0}}">
+                                <br>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}     
+
+<div id="mymodal" class="modal fade" role="dialog">
+    <div  class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Provider</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form action="{{url_for('insert_providers')}}" method="POST">
+                    <div class="form-group">
+                        <label for="">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required="1">
+                </div>
+                <form action="{{url_for('insert_providers')}}" method="POST">
+                    <div class="form-group">
+                        <label for="">Role:</label>
+                        <input type="text" class="form-control" id="role" name="role" required="1">
+                </div>
+                <form action="{{url_for('insert_providers')}}" method="POST">
+                    <div class="form-group">
+                        <label for="">Employment Status:</label>
+                        <input type="text" class="form-control" id="employment_status" name="employment_status" required="1">
+                </div>
+                <br>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add Provider</button>
+                </div>
+                
+            </form>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+
+</div>
+</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
